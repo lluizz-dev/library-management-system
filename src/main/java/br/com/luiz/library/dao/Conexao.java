@@ -1,29 +1,43 @@
 package br.com.luiz.library.dao;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import io.github.cdimascio.dotenv.Dotenv;
 
 public class Conexao  {
-    public static void main(String[] args) {
+        private static Connection conexao;
+
         // Objeto para conectar com o .env
-        Dotenv dotenv = Dotenv.load();
+        private static final Dotenv dotenv = Dotenv.load();
 
         // Parâmetros de conexão
-        String url = dotenv.get("DB_URL");
-        String usuario = dotenv.get("DB_USER");
-        String senha = dotenv.get("DB_PASSWORD");
+        private static final String URL = dotenv.get("DB_URL");
+        private static final String USUARIO = dotenv.get("DB_USER");
+        private static final String SENHA = dotenv.get("DB_PASSWORD");
 
-        // Tentar conectar
-        try {
-            Connection conexao = DriverManager.getConnection(url, usuario, senha);
-            System.out.println("Conexão realizada com sucesso!");
+    public static Connection getConexao() {
+        if (conexao == null) {
+            try {
+                conexao = DriverManager.getConnection(URL, USUARIO, SENHA);
+            } catch (SQLException e) {
+                System.out.println("Erro ao conectar: " + e.getMessage());
+                throw new RuntimeException(e);
+            }
+        }
+        return conexao;
+    }
 
-            // Fechar conexão
-            conexao.close();
-        } catch (SQLException e) {
-            System.out.println("Erro ao conectar: " + e.getMessage());
+    public static void fecharConexao() {
+        if (conexao != null) {
+            try {
+                conexao.close();
+                conexao = null;
+                System.out.println("Conexão fechada!");
+            } catch (SQLException e) {
+                System.out.println("Erro ao fechar conexão: " + e.getMessage());
+            }
         }
     }
 }
