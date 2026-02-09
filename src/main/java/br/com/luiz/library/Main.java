@@ -54,7 +54,7 @@ public class Main {
                                 break;
 
                             case 3:
-                                //Função de listar todos os livros
+                                consultas.listarLivros();
                                 break;
 
                             default:

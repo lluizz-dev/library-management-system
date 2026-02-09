@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Consulta {
 
@@ -31,9 +33,9 @@ public class Consulta {
                 livroConsulta.setNumeroPaginas(rs.getInt("numero_paginas"));
 
                 System.out.printf("%nLivro:%n");
-                System.out.printf("ID      Título                     Preço     Ano     Edição     Páginas%n");
-                System.out.printf("-----------------------------------------------------------------------%n");
-                System.out.printf("%-6d  %-25s  R$%-6.2f  %-6d  %-9d  %-9d%n",
+                System.out.printf("ID      Título                               Preço     Ano     Edição     Páginas%n");
+                System.out.printf("-----------------------------------------------------------------------------------%n");
+                System.out.printf("%-6d  %-35s  R$%-6.2f  %-6d  %-9d  %-9d%n",
                         livroConsulta.getIdLivro(),
                         livroConsulta.getTitulo(),
                         livroConsulta.getPreco(),
@@ -65,9 +67,9 @@ public class Consulta {
                 livroConsulta.setNumeroPaginas(rs.getInt("numero_paginas"));
 
                 System.out.printf("%nLivro:%n");
-                System.out.printf("ID      Título                     Preço     Ano     Edição     Páginas%n");
-                System.out.printf("-----------------------------------------------------------------------%n");
-                System.out.printf("%-6d  %-25s  R$%-6.2f  %-6d  %-9d  %-9d%n",
+                System.out.printf("ID      Título                               Preço     Ano     Edição     Páginas%n");
+                System.out.printf("---------------------------------------------------------------------------------%n");
+                System.out.printf("%-6d  %-35s  R$%-6.2f  %-6d  %-9d  %-9d%n",
                         livroConsulta.getIdLivro(),
                         livroConsulta.getTitulo(),
                         livroConsulta.getPreco(),
@@ -81,6 +83,44 @@ public class Consulta {
         }
 
 
+    }
+
+    public void listarLivros() {
+        List<Livro> listaLivros = new ArrayList<>();
+        String selectTodosLivros = "SELECT id_livro, titulo, preco, ano_publicacao, edicao, numero_paginas FROM livros order by id_livro";
+
+        try (PreparedStatement stmt = conexao.prepareStatement(selectTodosLivros)) {
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Livro livroConsulta = new Livro();
+
+                livroConsulta.setIdLivro(rs.getInt("id_livro"));
+                livroConsulta.setTitulo(rs.getString("titulo"));
+                livroConsulta.setPreco(rs.getDouble("preco"));
+                livroConsulta.setAnoPublicacao(rs.getInt("ano_publicacao"));
+                livroConsulta.setEdicao(rs.getInt("edicao"));
+                livroConsulta.setNumeroPaginas(rs.getInt("numero_paginas"));
+
+                listaLivros.add(livroConsulta);
+            }
+
+            System.out.printf("%nLivro:%n");
+            System.out.printf("ID      Título                               Preço     Ano     Edição     Páginas%n");
+            System.out.printf("---------------------------------------------------------------------------------%n");
+
+            for (Livro livroConsulta : listaLivros) {
+                System.out.printf("%-6d  %-35s  R$%-6.2f  %-6d  %-9d  %-9d%n",
+                        livroConsulta.getIdLivro(),
+                        livroConsulta.getTitulo(),
+                        livroConsulta.getPreco(),
+                        livroConsulta.getAnoPublicacao(),
+                        livroConsulta.getEdicao(),
+                        livroConsulta.getNumeroPaginas());
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void consultaEmprestimos() {
