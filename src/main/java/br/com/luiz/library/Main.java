@@ -9,8 +9,8 @@ public class Main {
         int opcao, consulta;
 
         System.out.println("------ Sistema de Biblioteca ------");
-        System.out.println("Escolha uma opção: ");
         System.out.println("1. Consulta");
+        System.out.print("Escolha: ");
         opcao = input.nextInt();
         input.nextLine();
 
@@ -23,6 +23,7 @@ public class Main {
                 System.out.println("2. Consulta de exemplares");
                 System.out.println("3. Consulta de empréstimos");
                 System.out.println("4. Consulta de usuários");
+                System.out.print("Escolha: ");
                 consulta = input.nextInt();
                 input.nextLine();
 

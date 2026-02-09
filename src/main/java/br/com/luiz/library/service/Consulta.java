@@ -33,7 +33,7 @@ public class Consulta {
                 System.out.printf("%nLivro:%n");
                 System.out.printf("ID      Título                     Preço     Ano     Edição     Páginas%n");
                 System.out.printf("-----------------------------------------------------------------------%n");
-                System.out.printf("%-6d  %-25s  R$%-8.2f  %-6d  %-9d  %-9d%n",
+                System.out.printf("%-6d  %-25s  R$%-6.2f  %-6d  %-9d  %-9d%n",
                         livroConsulta.getIdLivro(),
                         livroConsulta.getTitulo(),
                         livroConsulta.getPreco(),
@@ -50,7 +50,7 @@ public class Consulta {
         Livro livroConsulta = new Livro();
 
         String consultaLivroId = "SELECT id_livro, titulo, preco, ano_publicacao, edicao, numero_paginas" +
-                " FROM livros WHERE upper(titulo) = upper(?);";
+                " FROM livros WHERE id_livro = ?";
 
         try (PreparedStatement stmt = conexao.prepareStatement(consultaLivroId)) {
             stmt.setInt(1, id);
@@ -67,7 +67,7 @@ public class Consulta {
                 System.out.printf("%nLivro:%n");
                 System.out.printf("ID      Título                     Preço     Ano     Edição     Páginas%n");
                 System.out.printf("-----------------------------------------------------------------------%n");
-                System.out.printf("%-6d  %-25s  R$%-8.2f  %-6d  %-9d  %-9d%n",
+                System.out.printf("%-6d  %-25s  R$%-6.2f  %-6d  %-9d  %-9d%n",
                         livroConsulta.getIdLivro(),
                         livroConsulta.getTitulo(),
                         livroConsulta.getPreco(),
