@@ -123,15 +123,126 @@ public class Consulta {
         }
     }
 
+    public void consultaExemplares(String id_livro) {
+        /*List<Exemplares> listaExemplares = new ArrayList<>();
+
+        String consultaExemplar = "SELECT l.titulo, ex.id_exemplar, ec.id_estado, ex.codigo_barras, ex.observacoes" +
+                                    "FROM exemplares ex" +
+                                        "JOIN livros l ON ex.id_livro = l.id_livro" +
+                                        "JOIN estados_conservacao ec ON ex.id_estado_conservacao = ec.id_estado" +
+                                    "WHERE l.id_livro = ?;";
+
+        try (PreparedStatement stmt = conexao.prepareStatement(consultaExemplar)) {
+            stmt.setString(1, id_livro);
+            ResultSet rs = stmt.executeQuery();
+            Exemplares exemplarConsulta = new Exemplares();
+
+            while (rs.next()) {
+
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }*/
+    }
+
     public void consultaEmprestimos() {
 
     }
 
-    public void consultaUsuarios() {
+    public void consultaUsuarios(String id_usuario) {
+        Usuario usuarioConsulta = new Usuario();
+        String consultaUsuarios = "SELECT id_usuario, nome, cpf, email, telefone FROM usuarios WHERE upper(nome) = upper(?);";
 
+        try (PreparedStatement stmt = conexao.prepareStatement(consultaUsuarios)) {
+            stmt.setString(1, id_usuario);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                usuarioConsulta.setIdUsuario(rs.getInt("id_usuario"));
+                usuarioConsulta.setNome(rs.getString("nome"));
+                usuarioConsulta.setCpf(rs.getString("cpf"));
+                usuarioConsulta.setEmail(rs.getString("email"));
+                usuarioConsulta.setTelefone(rs.getString("telefone"));
+
+                System.out.printf("%Usuário:%n");
+                System.out.print("ID      Nome                               CPF              E-mail                      Telefone\n");
+                System.out.printf("-------------------------------------------------------------------------------------------------------%n");
+                System.out.printf("%-6d  %-33s  %-15s  %-26s  %-9s",
+                        usuarioConsulta.getIdUsuario(),
+                        usuarioConsulta.getNome(),
+                        usuarioConsulta.getCpf(),
+                        usuarioConsulta.getEmail(),
+                        usuarioConsulta.getTelefone());
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public void consultaExemplares() {
+    public void consultaUsuarios(int idUsuario) {
+        Usuario usuarioConsulta = new Usuario();
+        String consultaUsuarios = "SELECT id_usuario, nome, cpf, email, telefone FROM usuarios WHERE id_usuario = ?;";
 
+        try (PreparedStatement stmt = conexao.prepareStatement(consultaUsuarios)) {
+            stmt.setInt(1, idUsuario);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                usuarioConsulta.setIdUsuario(rs.getInt("id_usuario"));
+                usuarioConsulta.setNome(rs.getString("nome"));
+                usuarioConsulta.setCpf(rs.getString("cpf"));
+                usuarioConsulta.setEmail(rs.getString("email"));
+                usuarioConsulta.setTelefone(rs.getString("telefone"));
+
+                System.out.printf("%nUsuário:%n");
+                System.out.print("ID      Nome                               CPF              E-mail                      Telefone\n");
+                System.out.printf("-------------------------------------------------------------------------------------------------------%n");
+                System.out.printf("%-6d  %-33s  %-15s  %-26s  %-9s",
+                        usuarioConsulta.getIdUsuario(),
+                        usuarioConsulta.getNome(),
+                        usuarioConsulta.getCpf(),
+                        usuarioConsulta.getEmail(),
+                        usuarioConsulta.getTelefone());
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void listarUsuarios() {
+        List<Usuario> listaUsuarios = new ArrayList<>();
+        String selectTodosLivros = "SELECT id_usuario, nome, cpf, email, telefone FROM usuarios order by id_usuario";
+
+        try (PreparedStatement stmt = conexao.prepareStatement(selectTodosLivros)) {
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Usuario usuarioConsulta = new Usuario();
+
+                usuarioConsulta.setIdUsuario(rs.getInt("id_usuario"));
+                usuarioConsulta.setNome(rs.getString("nome"));
+                usuarioConsulta.setCpf(rs.getString("cpf"));
+                usuarioConsulta.setEmail(rs.getString("email"));
+                usuarioConsulta.setTelefone(rs.getString("telefone"));
+
+                listaUsuarios.add(usuarioConsulta);
+            }
+
+            System.out.printf("%nUsuários:%n");
+            System.out.print("ID      Nome                               CPF              E-mail                      Telefone\n");
+            System.out.printf("-------------------------------------------------------------------------------------------------------%n");
+
+            for (Usuario usuarioConsulta : listaUsuarios) {
+                System.out.printf("%-6d  %-33s  %-15s  %-26s  %-9s \n",
+                        usuarioConsulta.getIdUsuario(),
+                        usuarioConsulta.getNome(),
+                        usuarioConsulta.getCpf(),
+                        usuarioConsulta.getEmail(),
+                        usuarioConsulta.getTelefone());
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

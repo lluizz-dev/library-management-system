@@ -72,6 +72,30 @@ public class Main {
 
                     case 4:
                         // Consulta de usuários
+                        System.out.println("\n--- Consulta de Usuários ---");
+                        System.out.println("Como deseja pesquisar?");
+                        System.out.println("1. Por ID do usuário");
+                        System.out.println("2. Por nome do usuário");
+                        System.out.println("3. Listar todos os usuários");
+                        System.out.print("Escolha: ");
+                        int usuarioConsulta = input.nextInt();
+                        input.nextLine();
+
+                        switch (usuarioConsulta) {
+                            case 1:
+                                System.out.print("Digite o id do usuário: ");
+                                int idUsuario = input.nextInt();
+                                consultas.consultaUsuarios(idUsuario);
+                                break;
+                            case 2:
+                                System.out.print("Digite o nome do usuário: ");
+                                String nomeUsuario = input.nextLine();
+                                consultas.consultaUsuarios(nomeUsuario);
+                                break;
+                            case 3:
+                                consultas.listarUsuarios();
+                                break;
+                        }
                         break;
 
                     default:
