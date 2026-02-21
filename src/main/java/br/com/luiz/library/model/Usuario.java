@@ -12,6 +12,14 @@ public class Usuario {
     private LocalDate dataCadastro;
     private boolean ativo;
 
+    public Usuario(long idUsuario, String nome, String cpf, String email, String telefone) {
+        this.idUsuario = idUsuario;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.email = email;
+        this.telefone = telefone;
+    }
+
     public long getIdUsuario() {
         return idUsuario;
     }

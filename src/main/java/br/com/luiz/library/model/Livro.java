@@ -14,6 +14,15 @@ public class Livro {
     private LocalDateTime dataCadastro;
     private LocalDateTime dataAtualizacao;
 
+    public Livro(int idLivro, String titulo, int anoPublicacao, int edicao, int numeroPaginas, double preco) {
+        this.idLivro = idLivro;
+        this.titulo = titulo;
+        this.anoPublicacao = anoPublicacao;
+        this.edicao = edicao;
+        this.numeroPaginas = numeroPaginas;
+        this.preco = preco;
+    }
+
     public int getIdLivro() {
         return idLivro;
     }
