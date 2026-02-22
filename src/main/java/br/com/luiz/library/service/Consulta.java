@@ -15,8 +15,6 @@ public class Consulta {
     private final Connection conexao = Conexao.getConexao();
 
     public void consultaLivros(String titulo) {
-        Livro livroConsulta = new Livro();
-
         String consultaLivroTitulo = "SELECT id_livro, titulo, preco, ano_publicacao, edicao, numero_paginas" +
                                         " FROM livros WHERE upper(titulo) = upper(?);";
 
@@ -25,12 +23,14 @@ public class Consulta {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                livroConsulta.setIdLivro(rs.getInt("id_livro"));
-                livroConsulta.setTitulo(rs.getString("titulo"));
-                livroConsulta.setPreco(rs.getDouble("preco"));
-                livroConsulta.setAnoPublicacao(rs.getInt("ano_publicacao"));
-                livroConsulta.setEdicao(rs.getInt("edicao"));
-                livroConsulta.setNumeroPaginas(rs.getInt("numero_paginas"));
+                Livro livroConsulta = new Livro(
+                        rs.getInt("id_livro"),
+                        rs.getString("titulo"),
+                        rs.getInt("ano_publicacao"),
+                        rs.getInt("edicao"),
+                        rs.getInt("numero_paginas"),
+                        rs.getDouble("preco")
+                );
 
                 System.out.printf("%nLivro:%n");
                 System.out.printf("ID      Título                               Preço     Ano     Edição     Páginas%n");
@@ -49,8 +49,6 @@ public class Consulta {
     }
 
     public void consultaLivros(int id) {
-        Livro livroConsulta = new Livro();
-
         String consultaLivroId = "SELECT id_livro, titulo, preco, ano_publicacao, edicao, numero_paginas" +
                 " FROM livros WHERE id_livro = ?";
 
@@ -59,12 +57,14 @@ public class Consulta {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                livroConsulta.setIdLivro(rs.getInt("id_livro"));
-                livroConsulta.setTitulo(rs.getString("titulo"));
-                livroConsulta.setPreco(rs.getDouble("preco"));
-                livroConsulta.setAnoPublicacao(rs.getInt("ano_publicacao"));
-                livroConsulta.setEdicao(rs.getInt("edicao"));
-                livroConsulta.setNumeroPaginas(rs.getInt("numero_paginas"));
+                Livro livroConsulta = new Livro(
+                        rs.getInt("id_livro"),
+                        rs.getString("titulo"),
+                        rs.getInt("ano_publicacao"),
+                        rs.getInt("edicao"),
+                        rs.getInt("numero_paginas"),
+                        rs.getDouble("preco")
+                );
 
                 System.out.printf("%nLivro:%n");
                 System.out.printf("ID      Título                               Preço     Ano     Edição     Páginas%n");
@@ -93,14 +93,14 @@ public class Consulta {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Livro livroConsulta = new Livro();
-
-                livroConsulta.setIdLivro(rs.getInt("id_livro"));
-                livroConsulta.setTitulo(rs.getString("titulo"));
-                livroConsulta.setPreco(rs.getDouble("preco"));
-                livroConsulta.setAnoPublicacao(rs.getInt("ano_publicacao"));
-                livroConsulta.setEdicao(rs.getInt("edicao"));
-                livroConsulta.setNumeroPaginas(rs.getInt("numero_paginas"));
+                Livro livroConsulta = new Livro(
+                        rs.getInt("id_livro"),
+                        rs.getString("titulo"),
+                        rs.getInt("ano_publicacao"),
+                        rs.getInt("edicao"),
+                        rs.getInt("numero_paginas"),
+                        rs.getDouble("preco")
+                );
 
                 listaLivros.add(livroConsulta);
             }
@@ -150,7 +150,6 @@ public class Consulta {
     }
 
     public void consultaUsuarios(String id_usuario) {
-        Usuario usuarioConsulta = new Usuario();
         String consultaUsuarios = "SELECT id_usuario, nome, cpf, email, telefone FROM usuarios WHERE upper(nome) = upper(?);";
 
         try (PreparedStatement stmt = conexao.prepareStatement(consultaUsuarios)) {
@@ -158,13 +157,15 @@ public class Consulta {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                usuarioConsulta.setIdUsuario(rs.getInt("id_usuario"));
-                usuarioConsulta.setNome(rs.getString("nome"));
-                usuarioConsulta.setCpf(rs.getString("cpf"));
-                usuarioConsulta.setEmail(rs.getString("email"));
-                usuarioConsulta.setTelefone(rs.getString("telefone"));
+                Usuario usuarioConsulta = new Usuario(
+                        rs.getInt("id_usuario"),
+                        rs.getString("nome"),
+                        rs.getString("cpf"),
+                        rs.getString("email"),
+                        rs.getString("telefone")
+                );
 
-                System.out.printf("%Usuário:%n");
+                System.out.print("\nUsuário:\n");
                 System.out.print("ID      Nome                               CPF              E-mail                      Telefone\n");
                 System.out.printf("-------------------------------------------------------------------------------------------------------%n");
                 System.out.printf("%-6d  %-33s  %-15s  %-26s  %-9s",
@@ -180,7 +181,6 @@ public class Consulta {
     }
 
     public void consultaUsuarios(int idUsuario) {
-        Usuario usuarioConsulta = new Usuario();
         String consultaUsuarios = "SELECT id_usuario, nome, cpf, email, telefone FROM usuarios WHERE id_usuario = ?;";
 
         try (PreparedStatement stmt = conexao.prepareStatement(consultaUsuarios)) {
@@ -188,11 +188,13 @@ public class Consulta {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                usuarioConsulta.setIdUsuario(rs.getInt("id_usuario"));
-                usuarioConsulta.setNome(rs.getString("nome"));
-                usuarioConsulta.setCpf(rs.getString("cpf"));
-                usuarioConsulta.setEmail(rs.getString("email"));
-                usuarioConsulta.setTelefone(rs.getString("telefone"));
+                Usuario usuarioConsulta = new Usuario(
+                        rs.getInt("id_usuario"),
+                        rs.getString("nome"),
+                        rs.getString("cpf"),
+                        rs.getString("email"),
+                        rs.getString("telefone")
+                );
 
                 System.out.printf("%nUsuário:%n");
                 System.out.print("ID      Nome                               CPF              E-mail                      Telefone\n");
@@ -217,13 +219,13 @@ public class Consulta {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Usuario usuarioConsulta = new Usuario();
-
-                usuarioConsulta.setIdUsuario(rs.getInt("id_usuario"));
-                usuarioConsulta.setNome(rs.getString("nome"));
-                usuarioConsulta.setCpf(rs.getString("cpf"));
-                usuarioConsulta.setEmail(rs.getString("email"));
-                usuarioConsulta.setTelefone(rs.getString("telefone"));
+                Usuario usuarioConsulta = new Usuario(
+                        rs.getInt("id_usuario"),
+                        rs.getString("nome"),
+                        rs.getString("cpf"),
+                        rs.getString("email"),
+                        rs.getString("telefone")
+                );
 
                 listaUsuarios.add(usuarioConsulta);
             }
