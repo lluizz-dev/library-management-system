@@ -3,7 +3,7 @@ package br.com.luiz.library;
 import br.com.luiz.library.service.Consulta;
 import java.util.Scanner;
 
-public class Main {
+public class SistemaLivraria {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         int opcao, consulta;
